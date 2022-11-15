@@ -1,13 +1,16 @@
-import CategoryItem from "./resources/components/category-item";
+import { Routes, Route, Outlet } from "react-router-dom";
+import Home from "./routes/home/home-component";
+import Navigation from "./routes/navigation/Navigation";
+import SignIn from "./routes/sign-in/Sign-in";
 
 const App = () => {
-  const categories = require("./resources/components/category-data/categories.json");
   return (
-    <div className="categories-container">
-      {categories.map((category) => {
-        return <CategoryItem key={category.id} category={category} />;
-      })}
-    </div>
+    <Routes>
+      <Route path="/" element={<Navigation />}>
+        <Route index element={<Home />} />
+        <Route path="sign-in" element={<SignIn />} />
+      </Route>
+    </Routes>
   );
 };
 
