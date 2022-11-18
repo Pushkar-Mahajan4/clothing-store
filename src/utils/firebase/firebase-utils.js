@@ -45,12 +45,15 @@ export const createUserDocument = async (userAuth) => {
   }
 };
 
-const provider = new GoogleAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 
-provider.setCustomParameters({
+googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
 export const auth = getAuth();
 export const signInWithGooglePopup = async () =>
-  await signInWithPopup(auth, provider);
+  await signInWithPopup(auth, googleProvider);
+
+export const singInWithGoogleRedirect = () =>
+  signInWithRedirect(auth, googleProvider);
