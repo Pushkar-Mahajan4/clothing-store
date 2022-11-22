@@ -1,27 +1,24 @@
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  signInWithRedirect,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCCiCZKUZsLiYqaTUAOUQuYZ33u9mWcb2c",
-  authDomain: "crown-clothing-db-3bad5.firebaseapp.com",
-  projectId: "crown-clothing-db-3bad5",
-  storageBucket: "crown-clothing-db-3bad5.appspot.com",
-  messagingSenderId: "765177792201",
-  appId: "1:765177792201:web:9f9e60506bd0274fdcaf18",
+  apiKey: "AIzaSyBf82nnU65dn1fGrjI-0sqZb31zRSV1V5M",
+  authDomain: "crown-clothing-bcd1c.firebaseapp.com",
+  projectId: "crown-clothing-bcd1c",
+  storageBucket: "crown-clothing-bcd1c.appspot.com",
+  messagingSenderId: "253120788472",
+  appId: "1:253120788472:web:718cfea38132bc787d880d",
 };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
 export const db = getFirestore();
 
 export const createUserDocument = async (userAuth) => {
+  if (!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
   console.log(userDocRef);
   const userSnapshot = await getDoc(userDocRef);
@@ -51,9 +48,12 @@ googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
-export const auth = getAuth();
 export const signInWithGooglePopup = async () =>
   await signInWithPopup(auth, googleProvider);
 
-export const singInWithGoogleRedirect = () =>
-  signInWithRedirect(auth, googleProvider);
+export const createAuthUserWithEmailPassword = async (email, password) => {
+  if (email && password) {
+    return await createUserWithEmailAndPassword(auth, email, password);
+  }
+  return "Error";
+};
